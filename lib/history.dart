@@ -13,6 +13,7 @@ class HistoryEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(expression, style: const TextStyle(fontSize: 14)),
         Text(
@@ -36,9 +37,11 @@ class HistoryMenu extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
+            right: 0,
             bottom: 53,
-            child: ListView(
-              shrinkWrap: true,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: const [
                 HistoryEntry(expression: '12 x 12', result: '144'),
               ],
@@ -47,12 +50,13 @@ class HistoryMenu extends StatelessWidget {
 
           // Clear button
           Positioned(
+            left: 61,
             bottom: 10,
             child: Container(
               width: 140,
               height: 44,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 255, 255),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(100),
                 boxShadow: [
                   BoxShadow(
