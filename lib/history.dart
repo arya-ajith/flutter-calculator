@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'calculator_button.dart';
+
 class HistoryEntry extends StatelessWidget {
   final String expression;
   final String result;
@@ -52,21 +54,7 @@ class HistoryMenu extends StatelessWidget {
           Positioned(
             left: 61,
             bottom: 10,
-            child: Container(
-              width: 140,
-              height: 44,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(100),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.25),
-                    blurRadius: 10,
-                  ),
-                ],
-              ),
-              child: const Center(child: Text('Clear')),
-            ),
+            child: CalculatorButton(text: 'Clear', width: 140, height: 44),
           ),
         ],
       ),
