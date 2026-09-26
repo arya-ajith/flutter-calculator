@@ -50,98 +50,70 @@ class _MyAppState extends State<MyApp> {
     final key = event.logicalKey;
     final character = event.character;
 
-    switch (key) {
-      case LogicalKeyboardKey.numpad0:
-      case LogicalKeyboardKey.digit0:
-        _updateCalculator(() => calculator.inputNumber('0'));
-        return;
-      case LogicalKeyboardKey.numpad1:
-      case LogicalKeyboardKey.digit1:
-        _updateCalculator(() => calculator.inputNumber('1'));
-        return;
-      case LogicalKeyboardKey.numpad2:
-      case LogicalKeyboardKey.digit2:
-        _updateCalculator(() => calculator.inputNumber('2'));
-        return;
-      case LogicalKeyboardKey.numpad3:
-      case LogicalKeyboardKey.digit3:
-        _updateCalculator(() => calculator.inputNumber('3'));
-        return;
-      case LogicalKeyboardKey.numpad4:
-      case LogicalKeyboardKey.digit4:
-        _updateCalculator(() => calculator.inputNumber('4'));
-        return;
-      case LogicalKeyboardKey.numpad5:
-      case LogicalKeyboardKey.digit5:
-        _updateCalculator(() => calculator.inputNumber('5'));
-        return;
-      case LogicalKeyboardKey.numpad6:
-      case LogicalKeyboardKey.digit6:
-        _updateCalculator(() => calculator.inputNumber('6'));
-        return;
-      case LogicalKeyboardKey.numpad7:
-      case LogicalKeyboardKey.digit7:
-        _updateCalculator(() => calculator.inputNumber('7'));
-        return;
-      case LogicalKeyboardKey.numpad8:
-      case LogicalKeyboardKey.digit8:
-        _updateCalculator(() => calculator.inputNumber('8'));
-        return;
-      case LogicalKeyboardKey.numpad9:
-      case LogicalKeyboardKey.digit9:
-        _updateCalculator(() => calculator.inputNumber('9'));
-        return;
-      case LogicalKeyboardKey.period:
-      case LogicalKeyboardKey.numpadDecimal:
-        _updateCalculator(calculator.inputDecimal);
-        return;
-      case LogicalKeyboardKey.add:
-      case LogicalKeyboardKey.numpadAdd:
-        _updateCalculator(() => calculator.inputOperator('+', '+'));
-        return;
-      case LogicalKeyboardKey.minus:
-      case LogicalKeyboardKey.numpadSubtract:
-        _updateCalculator(() => calculator.inputOperator('-', '-'));
-        return;
-      case LogicalKeyboardKey.slash:
-      case LogicalKeyboardKey.numpadDivide:
-        _updateCalculator(() => calculator.inputOperator('÷', '/'));
-        return;
-      case LogicalKeyboardKey.enter:
-      case LogicalKeyboardKey.numpadEnter:
-      case LogicalKeyboardKey.equal:
-        _updateCalculator(() {
-          final expression = calculator.display;
-          calculator.equals();
-
-          if (calculator.display != 'Error') {
-            history.add(expression, calculator.display);
-          }
-        });
-        return;
-      case LogicalKeyboardKey.backspace:
-        _updateCalculator(calculator.delete);
-        return;
-      case LogicalKeyboardKey.escape:
-        _updateCalculator(calculator.clear);
-        return;
-      default:
-        break;
-    }
-
-    switch (character) {
-      case '%':
-        _updateCalculator(calculator.inputPercentage);
-        return;
-      case '*':
-        _updateCalculator(() => calculator.inputOperator('x', '*'));
-        return;
-      default:
-        break;
-    }
-
-    if (key == LogicalKeyboardKey.numpadMultiply) {
+    if (character == '%') {
+      _updateCalculator(calculator.inputPercentage);
+    } else if (character == '*') {
       _updateCalculator(() => calculator.inputOperator('x', '*'));
+    } else if (key == LogicalKeyboardKey.numpadMultiply) {
+      _updateCalculator(() => calculator.inputOperator('x', '*'));
+    } else if (key == LogicalKeyboardKey.numpad0 ||
+        key == LogicalKeyboardKey.digit0) {
+      _updateCalculator(() => calculator.inputNumber('0'));
+    } else if (key == LogicalKeyboardKey.numpad1 ||
+        key == LogicalKeyboardKey.digit1) {
+      _updateCalculator(() => calculator.inputNumber('1'));
+    } else if (key == LogicalKeyboardKey.numpad2 ||
+        key == LogicalKeyboardKey.digit2) {
+      _updateCalculator(() => calculator.inputNumber('2'));
+    } else if (key == LogicalKeyboardKey.numpad3 ||
+        key == LogicalKeyboardKey.digit3) {
+      _updateCalculator(() => calculator.inputNumber('3'));
+    } else if (key == LogicalKeyboardKey.numpad4 ||
+        key == LogicalKeyboardKey.digit4) {
+      _updateCalculator(() => calculator.inputNumber('4'));
+    } else if (key == LogicalKeyboardKey.numpad5 ||
+        key == LogicalKeyboardKey.digit5) {
+      _updateCalculator(() => calculator.inputNumber('5'));
+    } else if (key == LogicalKeyboardKey.numpad6 ||
+        key == LogicalKeyboardKey.digit6) {
+      _updateCalculator(() => calculator.inputNumber('6'));
+    } else if (key == LogicalKeyboardKey.numpad7 ||
+        key == LogicalKeyboardKey.digit7) {
+      _updateCalculator(() => calculator.inputNumber('7'));
+    } else if (key == LogicalKeyboardKey.numpad8 ||
+        key == LogicalKeyboardKey.digit8) {
+      _updateCalculator(() => calculator.inputNumber('8'));
+    } else if (key == LogicalKeyboardKey.numpad9 ||
+        key == LogicalKeyboardKey.digit9) {
+      _updateCalculator(() => calculator.inputNumber('9'));
+    } else if (key == LogicalKeyboardKey.period ||
+        key == LogicalKeyboardKey.numpadDecimal) {
+      _updateCalculator(calculator.inputDecimal);
+    } else if (key == LogicalKeyboardKey.add ||
+        key == LogicalKeyboardKey.numpadAdd) {
+      _updateCalculator(() => calculator.inputOperator('+', '+'));
+    } else if (key == LogicalKeyboardKey.minus ||
+        key == LogicalKeyboardKey.numpadSubtract) {
+      _updateCalculator(() => calculator.inputOperator('-', '-'));
+    } else if (key == LogicalKeyboardKey.slash ||
+        key == LogicalKeyboardKey.numpadDivide) {
+      _updateCalculator(() => calculator.inputOperator('÷', '/'));
+    } else if (key == LogicalKeyboardKey.enter ||
+        key == LogicalKeyboardKey.numpadEnter ||
+        key == LogicalKeyboardKey.equal) {
+      _updateCalculator(() {
+        String expression = calculator.display;
+
+        calculator.equals();
+
+        if (calculator.display != 'Error') {
+          history.add(expression, calculator.display);
+        }
+      });
+    } else if (key == LogicalKeyboardKey.backspace) {
+      _updateCalculator(calculator.delete);
+    } else if (key == LogicalKeyboardKey.escape) {
+      _updateCalculator(calculator.clear);
     }
   }
 
