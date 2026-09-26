@@ -3,6 +3,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'history.dart';
 import 'calculator_button.dart';
+import 'calculator_logic.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -34,7 +34,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool historyOpen = false;
-
+  CalculatorLogic calculator = CalculatorLogic();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -104,9 +104,9 @@ class _MyAppState extends State<MyApp> {
                     right: 6,
                     top: 36,
 
-                    child: const Text(
-                      '12 x 12',
-                      style: TextStyle(fontSize: 24, color: Colors.black),
+                    child: Text(
+                      calculator.display,
+                      style: const TextStyle(fontSize: 24, color: Colors.black),
                     ),
                   ),
 
@@ -145,11 +145,25 @@ class _MyAppState extends State<MyApp> {
                               children: [
                                 const SizedBox(width: 10),
 
-                                CalculatorButton(text: 'C'),
+                                CalculatorButton(
+                                  text: 'C',
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.clear();
+                                    });
+                                  },
+                                ),
 
                                 const SizedBox(width: 34),
 
-                                CalculatorButton(image: 'assets/delete.png'),
+                                CalculatorButton(
+                                  image: 'assets/delete.png',
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.delete();
+                                    });
+                                  },
+                                ),
 
                                 const SizedBox(width: 34),
 
@@ -170,15 +184,36 @@ class _MyAppState extends State<MyApp> {
                               children: [
                                 const SizedBox(width: 10),
 
-                                CalculatorButton(text: '7'),
+                                CalculatorButton(
+                                  text: '7',
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.inputNumber('7');
+                                    });
+                                  },
+                                ),
 
                                 const SizedBox(width: 34),
 
-                                CalculatorButton(text: '8'),
+                                CalculatorButton(
+                                  text: '8',
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.inputNumber('8');
+                                    });
+                                  },
+                                ),
 
                                 const SizedBox(width: 34),
 
-                                CalculatorButton(text: '9'),
+                                CalculatorButton(
+                                  text: '9',
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.inputNumber('9');
+                                    });
+                                  },
+                                ),
 
                                 const SizedBox(width: 34),
 
@@ -194,11 +229,32 @@ class _MyAppState extends State<MyApp> {
                             child: Row(
                               children: [
                                 const SizedBox(width: 10),
-                                CalculatorButton(text: '4'),
+                                CalculatorButton(
+                                  text: '4',
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.inputNumber('4');
+                                    });
+                                  },
+                                ),
                                 const SizedBox(width: 34),
-                                CalculatorButton(text: '5'),
+                                CalculatorButton(
+                                  text: '5',
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.inputNumber('5');
+                                    });
+                                  },
+                                ),
                                 const SizedBox(width: 34),
-                                CalculatorButton(text: '6'),
+                                CalculatorButton(
+                                  text: '6',
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.inputNumber('6');
+                                    });
+                                  },
+                                ),
                                 const SizedBox(width: 34),
                                 CalculatorButton(image: 'assets/minus.png'),
                               ],
@@ -212,11 +268,32 @@ class _MyAppState extends State<MyApp> {
                             child: Row(
                               children: [
                                 const SizedBox(width: 10),
-                                CalculatorButton(text: '1'),
+                                CalculatorButton(
+                                  text: '1',
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.inputNumber('1');
+                                    });
+                                  },
+                                ),
                                 const SizedBox(width: 34),
-                                CalculatorButton(text: '2'),
+                                CalculatorButton(
+                                  text: '2',
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.inputNumber('2');
+                                    });
+                                  },
+                                ),
                                 const SizedBox(width: 34),
-                                CalculatorButton(text: '3'),
+                                CalculatorButton(
+                                  text: '3',
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.inputNumber('3');
+                                    });
+                                  },
+                                ),
                                 const SizedBox(width: 34),
                                 CalculatorButton(image: 'assets/add.png'),
                               ],
@@ -234,12 +311,22 @@ class _MyAppState extends State<MyApp> {
                                   text: '0',
                                   width: 158,
                                   height: 44,
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.inputNumber('0');
+                                    });
+                                  },
                                 ),
                                 const SizedBox(width: 15),
                                 CalculatorButton(
                                   image: 'assets/dot.png',
                                   width: 76,
                                   height: 44,
+                                  onPressed: () {
+                                    setState(() {
+                                      calculator.inputDecimal();
+                                    });
+                                  },
                                 ),
                                 const SizedBox(width: 15),
                                 CalculatorButton(
