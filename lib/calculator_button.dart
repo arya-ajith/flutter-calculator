@@ -35,55 +35,27 @@ class _CalculatorButtonState extends State<CalculatorButton> {
 
   @override
   Widget build(BuildContext context) {
+    final buttonColor = isPressed
+        ? widget.pressedColor
+        : isHovered
+        ? widget.hoverColor
+        : widget.backgroundColor;
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
-
-      onEnter: (_) {
-        setState(() {
-          isHovered = true;
-        });
-      },
-
-      onExit: (_) {
-        setState(() {
-          isHovered = false;
-        });
-      },
-
+      onEnter: (_) => setState(() => isHovered = true),
+      onExit: (_) => setState(() => isHovered = false),
       child: GestureDetector(
         onTap: widget.onPressed,
-
-        onTapDown: (_) {
-          setState(() {
-            isPressed = true;
-          });
-        },
-
-        onTapUp: (_) {
-          setState(() {
-            isPressed = false;
-          });
-        },
-
-        onTapCancel: () {
-          setState(() {
-            isPressed = false;
-          });
-        },
-
+        onTapDown: (_) => setState(() => isPressed = true),
+        onTapUp: (_) => setState(() => isPressed = false),
+        onTapCancel: () => setState(() => isPressed = false),
         child: Container(
           width: widget.width,
           height: widget.height,
-
           decoration: BoxDecoration(
-            color: isPressed
-                ? widget.pressedColor
-                : isHovered
-                ? widget.hoverColor
-                : widget.backgroundColor,
-
+            color: buttonColor,
             borderRadius: BorderRadius.circular(100),
-
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.25),
@@ -91,12 +63,12 @@ class _CalculatorButtonState extends State<CalculatorButton> {
               ),
             ],
           ),
-
           child: Center(
             child: widget.image != null
-                ? isPressed
-                      ? Image.asset(widget.image!, color: Colors.white)
-                      : Image.asset(widget.image!)
+                ? Image.asset(
+                    widget.image!,
+                    color: isPressed ? Colors.white : null,
+                  )
                 : Text(
                     widget.text!,
                     style: TextStyle(
