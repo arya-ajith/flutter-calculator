@@ -329,9 +329,16 @@ class CalculatorLogic {
     bool negative = value.startsWith('-');
     String cleanValue = negative ? value.substring(1) : value;
 
-    String integerPart = cleanValue.split('.').first;
+    String digits = cleanValue.replaceAll('.', '');
+    digits = digits.replaceFirst(RegExp(r'^0+'), '');
 
-    if (integerPart.length > 15) {
+    // Zero
+    if (digits.isEmpty) {
+      return '0';
+    }
+
+    // More than 15 significant digits → scientific notation
+    if (digits.length > 15) {
       return _toScientificNotation(value);
     }
 
@@ -346,7 +353,6 @@ class CalculatorLogic {
     }
 
     String digits = value.replaceAll('.', '');
-
     digits = digits.replaceFirst(RegExp(r'^0+'), '');
 
     if (digits.isEmpty) {
@@ -355,23 +361,49 @@ class CalculatorLogic {
 
     String integerPart = value.split('.').first;
 
-    int exponent = integerPart.length - 1;
+    // Remove leading zeroes from integer part
+    String cleanIntegerPart = integerPart.replaceFirst(RegExp(r'^0+'), '');
 
-    if (digits.length > 10) {
-      String firstTen = digits.substring(0, 10);
-      String nextDigit = digits[10];
+    int exponent;
 
-      int rounded = int.parse(firstTen);
+    if (cleanIntegerPart.isNotEmpty) {
+      // Number >= 1
+      exponent = cleanIntegerPart.length - 1;
+    } else {
+      // Number < 1
+      int firstNonZero = 0;
 
-      if (int.parse(nextDigit) >= 5) {
+      while (firstNonZero < value.length && value[firstNonZero] != '0') {
+        firstNonZero++;
+      }
+
+      int decimalIndex = value.indexOf('.');
+      int firstDigitIndex = decimalIndex + 1;
+
+      while (firstDigitIndex < value.length && value[firstDigitIndex] == '0') {
+        firstDigitIndex++;
+      }
+
+      exponent = -(firstDigitIndex - decimalIndex - 1);
+    }
+
+    // Keep exactly 15 significant digits
+    if (digits.length > 15) {
+      String first15 = digits.substring(0, 15);
+      int nextDigit = int.parse(digits[15]);
+
+      int rounded = int.parse(first15);
+
+      if (nextDigit >= 5) {
         rounded++;
       }
 
       String roundedDigits = rounded.toString();
 
-      if (roundedDigits.length > 10) {
+      // 9.99999999999999 → 1.00000000000000 × 10^15
+      if (roundedDigits.length > 15) {
         exponent++;
-        roundedDigits = roundedDigits.substring(0, 10);
+        roundedDigits = roundedDigits.substring(0, 15);
       }
 
       digits = roundedDigits;
@@ -385,6 +417,7 @@ class CalculatorLogic {
       mantissa = '${digits[0]}.${digits.substring(1)}';
     }
 
+    // Remove unnecessary trailing zeroes
     if (mantissa.contains('.')) {
       mantissa = mantissa.replaceFirst(RegExp(r'0+$'), '');
 
@@ -393,8 +426,7 @@ class CalculatorLogic {
       }
     }
 
-    return '${negative ? '-' : ''}$mantissa'
-        'E+$exponent';
+    return '${negative ? '-' : ''}${mantissa}E${exponent >= 0 ? '+' : ''}$exponent';
   }
 
   String _addCommas(String value) {
